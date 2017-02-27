@@ -1,0 +1,416 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport"  content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=150" />
+		<script src="/openui5/resources/sap-ui-core.js"
+				id="sap-ui-bootstrap"
+				data-sap-ui-libs="sap.m,sap.ui.commons,sap.ui.ux3,sap.ui.table"
+				data-sap-ui-theme="sap_bluecrystal">
+		</script>
+<script>
+
+// Main container where the table is palaced
+	var oShell = new sap.ui.ux3.Shell("myShell", {
+		appTitle: "WardView The Prince Charles Hospital Prototype",
+		showLogoutButton: true,
+		logoutButtonTooltip: "Function not active",
+		showSearchTool: false,
+		showInspectorTool: false,
+		showFeederTool: false,
+		worksetItems: [new sap.ui.ux3.NavigationItem("WI_home",{key:"wi_home",text:"General Medicine [EMU]"})],
+		headerItems: [new sap.ui.commons.TextView({text:"User Name",tooltip:"Login user is displayed here!"})]
+	})
+
+// Data: This is where table data can be manupilated if choose to use local value instead of connecting to Database
+	var emu = [
+			// To add more values copy paste from here
+			// data explination example: "bed":"samplebed1", bed is the column name and samplebed1 is the data related to bed
+			// Allways add comma before adding new data/items
+				{
+					"index":"1",
+					"bed":"01B",
+					"name":"BEAR, YOGI",
+					"age":"78",
+					"cons":"Butler",
+					"diagnosis":"Hepatocellular carcimona",
+					"los":"49 Hrs",
+					"edd_dc_dest":"17/04/2013 EMU",
+					"diet_fluids":"Healthy, Thin Fluids",
+					"mobility":"Assist",
+
+					"a_d":"01",
+					"cfc":"",
+					"diet":"",
+					"esf":"",
+					"ot":"",
+					"phar":"",
+					"pod":"",
+					"psy":"",
+					"pt":"",
+					"sw":"",
+					"sp":"",
+
+					"dc":"",
+					"meds":"",
+					"med_plan":"",
+					"disch_plan":"Monitor postural BP's and BSL's Need pall Charles Review re pain and functional assessment",
+				},
+				{
+					"index":"2",
+					"bed":"01C",
+					"name":"SKYWALKER, LUKE",
+					"age":"75",
+					"cons":"Whiting",
+					"diagnosis":"? Gout, feet & ankle pain",
+					"los":"54 Hrs",
+					"edd_dc_dest":"17/04/2013 Home",
+					"diet_fluids":"Full Thin fluids",
+					"mobility":"Supervice X1",
+
+					"a_d":"",
+					"cfc":"",
+					"diet":"",
+					"esf":"",
+					"ot":"",
+					"phar":"",
+					"pod":"",
+					"psy":"",
+					"pt":"",
+					"sw":"",
+					"sp":"",
+
+					"dc":"",
+					"meds":"",
+					"med_plan":"",
+					"disch_plan":"discharge when indep mobile",
+				}
+
+	]
+
+
+// Creating table that will hold data
+	var oTable = new sap.ui.table.Table({
+											flexible: true,
+											resizable: false,
+											autoResizable: false,
+											enableSelectAll: false,
+											editable: false,
+											enableColumnReordering: false,
+											selectionMode : sap.ui.table.SelectionMode.None,
+											width : "150%",
+											//rowHeight :100
+										});
+
+// Toolbar
+	var oButton_New = sap.ui.commons.Button({text:"Add Item", icon:"sap-icon://add"});
+    var oTable_toolbar = new sap.ui.commons.Toolbar({
+														items: [
+																 oButton_New.attachPress (function(oEvent) {})
+														]
+													});
+
+// Create table columns and rows
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "43px",
+												flexible : false,
+												resizable: false,
+											  	label: new sap.ui.commons.Label({text: "Bed"}),
+											  	template: new sap.ui.commons.TextView().bindProperty("text", "bed")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "200px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Name"}),
+												template: new sap.ui.commons.TextView().bindProperty("text", "name")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "43px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Age"}),
+												template: new sap.ui.commons.TextView().bindProperty("text", "age")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "80px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Cons"}),
+												template: new sap.ui.commons.TextView().bindProperty("text", "cons")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "200px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Diagnosis"}),
+												template: new sap.ui.commons.TextView().bindProperty("text", "diagnosis")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "60px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "LOS"}),
+												template: new sap.ui.commons.TextView().bindProperty("text", "los")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "120px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "EDD/DC Dest"}),
+												template: new sap.ui.commons.TextView().bindProperty("text", "edd_dc_dest")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "150px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Diet/Fluids"}),
+												template: new sap.ui.commons.TextView().bindProperty("text", "diet_fluids")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "100px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Mobility"}),
+												template: new sap.ui.commons.TextView().bindProperty("text", "mobility")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "45px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "A&D"}),
+												template: icon_a_d = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "a_d")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "47px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "CFC"}),
+												template: cfc = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "cfc")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "47px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Diet"}),
+												template:  diet = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "diet")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "45px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "ESF"}),
+												template: esf = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "esf")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "40px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "OT"}),
+												template: ot = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "ot")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "47px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Phar"}),
+												template: phar = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "phar")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "45px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Pod"}),
+												template: pod = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "pod")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "45px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "PSY"}),
+												template: psy = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "psy")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "40px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "PT"}),
+												template: pt = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "pt")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "40px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "SW"}),
+												template: sw = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "sw")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "40px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "SP"}),
+												template: sp = new sap.ui.core.Icon({})
+												//template: new sap.ui.commons.TextView().bindProperty("text", "sp")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "40px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "DC"}),
+												template: new sap.ui.commons.CheckBox({textAlign:sap.ui.core.TextAlign.Center}).bindProperty("text", "dc")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "200px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Meds"}),
+												template: new sap.ui.commons.TextView().bindProperty("text", "meds")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												width: "200px",
+												flexible : false,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Med Plan"}),
+												template: new sap.ui.commons.TextView().bindProperty("text", "med_plan")
+											}));
+
+	oTable.addColumn(new sap.ui.table.Column({
+												//width: "200px",
+												flexible : true,
+												resizable: false,
+												label: new sap.ui.commons.Label({text: "Discharge Planning"}),
+												template: new sap.ui.commons.TextView().setWrapping(true).bindProperty("text", "disch_plan")
+											}));
+
+	// only display the same number of data in the array
+	oTable.setVisibleRowCount(emu.length);
+
+	var count = 0;
+
+	for (var i = 0; i < emu.length; i++) {
+		count = count + 1;
+
+/*
+		if (count == emu[i].index) {
+			if (emu[i].a_d == 1) {
+				icon_a_d.setSrc("sap-icon://flag");
+			} else if (emu[i].a_d == null){
+				icon_a_d.setSrc("sap-icon://less");
+			}
+		}
+*/
+
+		if (emu[i].a_d == 1) {
+			icon_a_d.setSrc("sap-icon://flag");
+		} else if (emu[i].a_d == null){
+			icon_a_d.setSrc("sap-icon://less");
+		}
+
+		if (emu[i].cfc == 1) {
+			cfc.setSrc("sap-icon://flag");
+		} else {
+			cfc.setSrc("sap-icon://less");
+		}
+
+		if (emu[i].diet == 1) {
+			diet.setSrc("sap-icon://flag");
+		} else {
+			diet.setSrc("sap-icon://less");
+		}
+
+		if (emu[i].esf == 1) {
+			esf.setSrc("sap-icon://flag");
+		} else {
+			esf.setSrc("sap-icon://less");
+		}
+
+		if (emu[i].ot == 1) {
+			ot.setSrc("sap-icon://flag");
+		} else {
+			ot.setSrc("sap-icon://less");
+		}
+
+		if (emu[i].phar == 1) {
+			phar.setSrc("sap-icon://flag");
+		} else {
+			phar.setSrc("sap-icon://less");
+		}
+
+		if (emu[i].pod == 1) {
+			pod.setSrc("sap-icon://flag");
+		} else {
+			pod.setSrc("sap-icon://less");
+		}
+
+		if (emu[i].psy == 1) {
+			psy.setSrc("sap-icon://flag");
+		} else {
+			psy.setSrc("sap-icon://less");
+		}
+
+		if (emu[i].pt == 1) {
+			pt.setSrc("sap-icon://flag");
+		} else {
+			pt.setSrc("sap-icon://less");
+		}
+
+		if (emu[i].sw == 1) {
+			sw.setSrc("sap-icon://flag");
+		} else {
+			sw.setSrc("sap-icon://less");
+		}
+
+		if (emu[i].sp == 1) {
+			sp.setSrc("sap-icon://flag");
+		} else {
+			sp.setSrc("sap-icon://less");
+		}
+	}
+
+	// Creating model and setting it up for data binding
+	var oModel = new sap.ui.model.json.JSONModel();
+	oModel.setData({oModel:emu});
+	oTable.setToolbar(oTable_toolbar).setModel(oModel).bindRows("/oModel");
+
+// Add table to shell
+	oShell.setContent(oTable);
+	oShell.placeAt("content");
+
+</script>
+
+    </head>
+    <body id='content' class='sapUiBody'>
+    </body>
+</html>
